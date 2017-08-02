@@ -50,6 +50,7 @@ public class Sorting2{
 	}
 
 	//mergeSort bottom up
+	//doesn't use index to access element, so is suitable for link
 	public static void mergeSortBU(Comparable[] data){
 		for(int sz = 1; sz<data.length; sz+=sz){
 			for(int i = 0; i+sz<data.length; i += sz+sz){
@@ -57,5 +58,31 @@ public class Sorting2{
 				merge(data, i, i+sz-1, Math.min(i+sz+sz-1, data.length-1));
 			}
 		}
+	}
+
+	//------------------------------------------------Quick Sort---------------------------------------------------------
+	public static void quickSort(Comparable[] data){
+		quickSortBody(data, 0, data.length-1);
+	}
+
+	private static void quickSortBody(Comparable[] data, int l, int r){
+		if(l>r)
+			return;
+		int q = partition(data, l, r);
+		mergeSortBody(data, l, q-1);
+		mergeSortBody(data, q+1, r);
+	}
+
+	private static int partition(Comparable[] data, int l, int r){
+		Comparable v = data[l];
+		int j = l;
+		for(int i = l+1; i<data.length; i++){
+			if(v.compareTo(data[i])>0){
+				Helper.swap(data, i, j+1);
+				j++;
+			}
+		}
+		Helper.swap(data, l, j);
+		return j;
 	}
 }
