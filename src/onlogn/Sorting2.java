@@ -74,6 +74,11 @@ public class Sorting2{
 	}
 
 	private static int partition(Comparable[] data, int l, int r){
+		//random-partition---apply to nearly ordered situation
+		int randomIndex = (int)(Math.random()*(r-l+1)+l);
+		Helper.swap(data, l, randomIndex);
+		//random-partition
+
 		Comparable v = data[l];
 		int j = l;
 		for(int i = l+1; i<data.length; i++){
