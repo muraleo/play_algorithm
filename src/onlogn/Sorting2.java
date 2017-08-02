@@ -1,3 +1,4 @@
+import java.lang.Math.*;
 public class Sorting2{
 	//this class has no instance
 	private Sorting2(){};
@@ -44,6 +45,16 @@ public class Sorting2{
 			}else{
 				data[k] = temp[i-l];
 				i++;
+			}
+		}
+	}
+
+	//mergeSort bottom up
+	public static void mergeSortBU(Comparable[] data){
+		for(int sz = 1; sz<data.length; sz+=sz){
+			for(int i = 0; i+sz<data.length; i += sz+sz){
+				//mid = i+sz-1 r = i+sz-1+sz
+				merge(data, i, i+sz-1, Math.min(i+sz+sz-1, data.length-1));
 			}
 		}
 	}
