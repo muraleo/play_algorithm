@@ -21,11 +21,37 @@ public class HeapSort{
 		}
 	}
 
+	public void heapSort_onSite(Integer[] data){
+		int n = data.length;
+		//heapify
+		for(int i = (n-1-1)/2; i>=0; i--){
+			shiftDown(data, n, i);
+		}
+		Helper.printAll(data);
+		for(int i = n-1; i>0;i--){
+			System.out.println("i is: "+i);
+			Helper.swap(data, i, 0);
+			shiftDown(data, i, 0);
+			Helper.printAll(data);
+		}
+	}
+
+	private void shiftDown(Comparable[] data, int sz, int k){
+		while(2*k+1<sz){
+			int j = 2*k+1;
+			if(j+1<sz && data[j+1].compareTo(data[j])>0)
+				j++;
+			if(data[k].compareTo(data[j])>=0) break;
+			Helper.swap(data,k,j);
+			k=j;
+		}
+	}
+
 	public static void main(String[] args){
 		HeapSort hs = new HeapSort();
 		Integer[] test = Helper.mathGenerateRandom(10, 100);
 		Helper.printAll(test);
-		hs.heapSort2(test);
+		hs.heapSort_onSite(test);
 		System.out.println();
 		Helper.printAll(test);
 	}
