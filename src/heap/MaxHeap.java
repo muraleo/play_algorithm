@@ -6,19 +6,23 @@ public class MaxHeap<E extends Comparable>{
 	private E[] data; //inner array
 	private int sz = 0; //indicate the amount of element in heap
 
+	//use in indexHeap
+	private int[] heapIndex;
+	private int[] reverseIndex;
+
 	//Constructor
-	MaxHeap(){this(CAPACITY+1);} //default constructor, have 1000 capacity, invoke next constructor
+	MaxHeap(){this(CAPACITY);} //default constructor, have 1000 capacity, invoke next constructor
 	MaxHeap(int n){		 //parameter constructor, have custom capacity
-		data = (E[]) new Comparable[n+1]; //remember + 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		data = (E[]) new Comparable[n]; //remember + 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 	MaxHeap(E[] arr){
 		int n = arr.length;
-		data = (E[]) new Comparable[n+1];
-		for(int i = 1; i <= arr.length; i++){
-			data[i] = arr[i-1];
+		data = (E[]) new Comparable[n];
+		for(int i = 0; i < arr.length; i++){
+			data[i] = arr[i];
 		}
 		sz = n;
-		for(int i = n/2; i>0;i--){
+		for(int i = (n-1)/2; i>=0;i--){
 			shiftDown(i);
 		}
 	}
@@ -32,7 +36,7 @@ public class MaxHeap<E extends Comparable>{
 	}
 
 	public void printAll(){
-		for(int i=1; i<=sz;i++){
+		for(int i=0; i<sz;i++){
 			System.out.print(" "+data[i]);
 		}
 		System.out.println("");
@@ -40,32 +44,35 @@ public class MaxHeap<E extends Comparable>{
 
 	public E peek() throws IndexOutOfBoundsException{ //retrieve but not remove the top one
 		if(sz<0) throw new IndexOutOfBoundsException();
-		return data[1];
+		return data[0];
+	}
 
+	public boolean contain(E e){
 	}
 
 	//update method
 	public void add(E e) throws IllegalStateException{
 		if(sz == CAPACITY) throw new IllegalStateException("Queue is full!"); //throw new!
-		int index = ++sz;
+		int index = sz;
 		data[index] = e;
+		sz++;
 		shiftUp(index);
 	}
 
 	//common java exception
 	public E poll() throws IndexOutOfBoundsException{
 		if(sz<1) throw new IndexOutOfBoundsException("queue is empty");
-		E result = data[1];
-		data[1] = data[sz];
+		E result = data[0];
+		data[0] = data[sz-1];
 		sz--;
-		shiftDown(1);	
+		shiftDown(0);	
 		return result;	
 	}
 
 	//auxiliary method
 	private void shiftUp(int k){
-		while(k>1&&(data[k].compareTo(data[k/2])>0)){
-			Helper.swap(data, k, k/2);
+		while(k>0&&(data[k].compareTo(data[(k-1)/2])>0)){
+			Helper.swap(data, k, (k-1)/2);
 			k /= 2;
 		}
 	}
@@ -87,9 +94,9 @@ public class MaxHeap<E extends Comparable>{
 		// 		System.out.println("3");
 		// 	}
 		// }
-		while(2*k<=sz){
-			int j = 2*k;
-			if(j+1<=sz && data[j+1].compareTo(data[j])>0)
+		while(2*k+1<sz){
+			int j = 2*k+1;
+			if(j+1<sz && data[j+1].compareTo(data[j])>0)
 				j++;
 			if(data[k].compareTo(data[j])>0) break;
 			Helper.swap(data,k,j);
