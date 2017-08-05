@@ -11,6 +11,7 @@ public class UnionFind{
 		size = n;
 	}
 
+	//return p's set
 	public int find(int p) throws IndexOutOfBoundsException{// find element p's id
 		if(p<0 || p>size) throw new IndexOutOfBoundsException("p is out of bound");
 		return id[p];

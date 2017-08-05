@@ -22,12 +22,12 @@ public class UnionFind2{
 	}
 
 	//check if p and q are connected
-	public boolean isconnected(){
-		return find[p] == find[q];
+	public boolean isconnected(int p, int q){
+		return find(p) == find(q);
 	}
 
 	//union p and q
-	public void union(){
+	public void union(int p, int q){
 		int pRoot = find(p); //remember to use variable to save operation
 		int qRoot = find(q);
 		if(pRoot == qRoot)
