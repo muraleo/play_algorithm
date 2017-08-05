@@ -13,6 +13,13 @@ public class BST<Key extends Comparable<Key>, Value>{
 			this.value = v;
 			left = right = null;
 		}
+
+		public Node(Node n){ //used in Hubbard deletion
+			this.key = n.key;
+			this.value = n.value;
+			this.left = n.left;
+			this.right = n.right;
+		}
 		public Key getKey(){
 			return key;
 		}
@@ -82,14 +89,14 @@ public class BST<Key extends Comparable<Key>, Value>{
 	}
 	public Key findMin() throws IndexOutOfBoundsException{
 		if(size <= 0) throw new IndexOutOfBoundsException("Tree is empty");
-		Key result = findMin(root);
-		return result;
+		Node result = findMin(root);
+		return result.key;
 	}
 
 	public Key findMax() throws IndexOutOfBoundsException{
 		if(size <= 0) throw new IndexOutOfBoundsException("Tree is empty");
-		Key result = findMax(root);
-		return result;
+		Node result = findMax(root);
+		return result.key;
 	}
 
 	public void removeMin(){
@@ -100,6 +107,11 @@ public class BST<Key extends Comparable<Key>, Value>{
 	public void removeMax(){
 		if(root!=null)
 			root =  removeMax(root);
+	}
+
+	//Hubbard deletion
+	public void remove(Key k){
+		remove(root, k);
 	}
 
 	//--------------------------------------------------------auxiliary method--------------------------------------------------------
@@ -170,18 +182,18 @@ public class BST<Key extends Comparable<Key>, Value>{
 		}
 	}
 
-	private Key findMin(Node n){
+	private Node findMin(Node n){
 		while(n.left!=null){ //if(n) is not valid in java
 			n=n.left;
 		}
-		return n.key;
+		return n;
 	}
 
-	private Key findMax(Node n){
+	private Node findMax(Node n){
 		while(n.right!=null){//if(n) is not valid in java
 			n=n.right;
 		}
-		return n.key;
+		return n;
 	}
 
 	private Node removeMin(Node n){
@@ -206,5 +218,36 @@ public class BST<Key extends Comparable<Key>, Value>{
 
 		n.right = removeMax(n.right);
 		return n.right;
+	}
+	//remove from tree with root n key k and return the root of new tree
+	private Node remove(Node n, Key k){
+		Node result = null;
+		if(n == null)
+			return null;
+		if(k.compareTo(n.key)<0){
+			n.left = remove(n.left, k); //?
+			result = n;
+		}else if(k.compareTo(n.key)>0){
+			n.right = remove(n.right, k);
+			result = n;
+		}
+		else{ // n,key == k
+			if(n.left == null){ //left child is null or has no child, remove this child and return its right child
+				size--;
+				result = n.right;
+			}else if(n.right == null){ //right child is null, remove right child and return its left child
+				size--;
+				result = n.left;
+			}else{ // when both child exist, replace n with minimal key in right subtree
+				Node rightMin = new Node(findMin(n.right)); //copy min in right child, because remove will delete original right child
+				size++; //because the new node above
+				rightMin.left = n.left;
+				rightMin.right = removeMin(n.right); //new node's right child is the root of the tree delete new node
+				n = null; //delete null for garbage collection
+				size--;
+				result = rightMin; 
+			}
+		}
+		return result;
 	}
 }
