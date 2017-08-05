@@ -23,8 +23,8 @@ public class SparseGraph{
 
 	//update method
 	public void add(int v, int w){
-		assert (v<=0||v>n);
-		assert (w<=0||w>m);
+		assert (v>=0||v<n);
+		assert (w>=0||w<m);
 		g[v].add(w);
 		if(v!=w&&!directed)
 			g[w].add(v);
@@ -32,8 +32,14 @@ public class SparseGraph{
 	}
 
 	public boolean hasEdge(int v, int w){
-		assert (v<=0||v>n);
-		assert (w<=0||w>m);
+		assert (v>=0||v<n);
+		assert (w>=0||w<m);
 		return g[v].contains(w);
+	}
+
+	public Interable<Integer> adj(int v){
+		assert (v>=0||v<n);
+		return g[v];
+
 	}
 }
