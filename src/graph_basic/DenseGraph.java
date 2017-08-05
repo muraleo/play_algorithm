@@ -1,4 +1,6 @@
-public class DenseGraph{
+import java.util.Vector;
+
+public class DenseGraph implements Graph{
 	private int n; // number of nodes
 	private int m; // number of edges
 	private boolean directed; // mark whether a directed graph
@@ -45,5 +47,17 @@ public class DenseGraph{
 				adjv.add(i);
 		}
 		return adjv;
+	}
+
+	//step 4
+	public void show(){ // print the whole graph
+		for(int i = 0; i< n; i++){
+			System.out.print("Vector "+i+" :");
+			for(int j = 0; j<n; j++){
+				if(g[i][j])
+					System.out.print(" "+j+",");
+			}
+			System.out.println();
+		}
 	}
 }
