@@ -1,6 +1,6 @@
 import java.util.Vector;
 
-public class SparseGraph{
+public class SparseGraph implements Graph{
 	private int n;
 	private int m;
 	private boolean directed;
@@ -22,7 +22,7 @@ public class SparseGraph{
 	public int E(){return m;}
 
 	//update method
-	public void add(int v, int w){
+	public void addEdge(int v, int w){
 		assert (v>=0||v<n);
 		assert (w>=0||w<m);
 		g[v].add(w);
@@ -37,9 +37,22 @@ public class SparseGraph{
 		return g[v].contains(w);
 	}
 
-	public Interable<Integer> adj(int v){
+	//step 3
+	//return all the adjacent node around node v
+	public Iterable<Integer> adj(int v){
 		assert (v>=0||v<n);
 		return g[v];
 
+	}
+
+	//step 4
+	//print the whole graph
+	public void show(){
+		for(int i = 0; i<n; i++){
+			System.out.print("Vector "+i+" : ");
+			for(Integer e: g[i])
+				System.out.print(e+" ");
+			System.out.println();
+		}
 	}
 }
