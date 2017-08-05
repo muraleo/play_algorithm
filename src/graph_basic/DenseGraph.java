@@ -19,8 +19,8 @@ public class DenseGraph{
 
 	//update method
 	public void addEdge(int v, int w){
-		assert v>=0||v<n;
-		assert w>=0||w<m;
+		assert (v>=0&&v<n);
+		assert (w>=0&&w<m);
 		if(hasEdge(v, w))
 			return;
 		g[v][w] = true;
@@ -30,8 +30,20 @@ public class DenseGraph{
 	}
 
 	public boolean hasEdge(int v, int w){
-		assert v>=0||v<n;
-		assert w>=0||w<m;
+		assert (v>=0&&v<n);
+		assert (w>=0&&w<m);
 		return g[v][w];
+	}
+
+	//step 3
+	//return all the adjacent node around node v
+	public Iterable<Integer> adj(int v){
+		assert (v>=0&&v<n);
+		Vector<Integer> adjv = new Vector<>();
+		for(int i =0;i<n; i++){
+			if(g[v][i])
+				adjv.add(i);
+		}
+		return adjv;
 	}
 }
