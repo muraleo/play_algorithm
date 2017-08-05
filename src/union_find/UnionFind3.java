@@ -17,11 +17,18 @@ public class UnionFind3{
 
 	//return p's root
 	public int find(int p) throws IndexOutOfBoundsException{
-		if(p<0 || p>=size) throw new IndexOutOfBoundsException("p is out of bound");
-		while(p!=parent[p]){
-			p = parent[p]; //search p's parent
-		}
-		return p; //return p's parent
+		//optimization 4: path compression
+		// if(p<0 || p>=size) throw new IndexOutOfBoundsException("p is out of bound");
+		// while(p!=parent[p]){
+		// 	parent[p] = parent[parent[p]];
+		// 	p = parent[p]; //search p's parent
+		// }
+		// return p; //return p's parent
+
+		//optimization 5; compress path into 2 level
+		if(p!=parent[p])
+			parent[p] = find(parent[p]);
+		return parent[p];
 	}
 
 	//check if p and q are connected
